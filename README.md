@@ -524,3 +524,5 @@ postgre      ClusterIP      10.245.223.122   <none>           5432/TCP       4m5
 ~/Iniciativa-Devops/kube-news-2/iac
 └──> $ git pull
 ´´´
+
+# TESTE

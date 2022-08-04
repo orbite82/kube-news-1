@@ -11,7 +11,7 @@ provider "digitalocean" {
   token = var.do_token
 }
 
-resource "digitalocean_kubernetes_cluster" "orbite" {
+resource "digitalocean_kubernetes_cluster" "orbite_k8s" {
   name   = var.k8s_name
   region = var.region
   # Grab the latest version slug from `doctl kubernetes options versions`
@@ -26,7 +26,7 @@ resource "digitalocean_kubernetes_cluster" "orbite" {
 }
 
 resource "digitalocean_kubernetes_node_pool" "bar" {
-  cluster_id = digitalocean_kubernetes_cluster.orbite.id
+  cluster_id = digitalocean_kubernetes_cluster.orbite_k8s.id
   name       = "premium"
   size       = "s-4vcpu-8gb"
   node_count = 1
@@ -38,10 +38,10 @@ variable "k8s_name" {}
 variable "region" {}
 
 output "kube_endpoint" {
-  value = digitalocean_kubernetes_cluster.orbite.endpoint
+  value = digitalocean_kubernetes_cluster.orbite_k8s.endpoint
 }
 
 resource "local_file" "kube_config" {
-    content  = digitalocean_kubernetes_cluster.orbite.kube_config.0.raw_config
+    content  = digitalocean_kubernetes_cluster.orbite_k8s.kube_config.0.raw_config
     filename = "kube_config.yaml"
 }
